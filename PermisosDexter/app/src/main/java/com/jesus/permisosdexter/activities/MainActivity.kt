@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.jesus.permisosdexter.R
-import com.jesus.permisosdexter.enums.PermissionStatusEnum
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -27,76 +26,68 @@ class MainActivity : Activity() {
     }
 
     private fun setButtonClicks() {
-        buttonCamera.setOnClickListener { checkCameraPermission() }
-        buttonContact.setOnClickListener { checkContactPermission() }
-        buttonAudio.setOnClickListener { checkAudioPermission() }
+        buttonCamera.setOnClickListener {
+            checkPermissions(
+                Manifest.permission.CAMERA,
+                textViewCamera
+            )
+        }
+        buttonContact.setOnClickListener {
+            checkPermissions(
+                Manifest.permission.READ_CONTACTS,
+                textViewContact
+            )
+        }
+        buttonAudio.setOnClickListener {
+            checkPermissions(
+                Manifest.permission.RECORD_AUDIO,
+                textViewAudio
+            )
+        }
     }
 
-    private fun checkCameraPermission() =
-        setPermissionHandler(Manifest.permission.CAMERA, textViewCamera)
-
-    private fun checkContactPermission() =
-        setPermissionHandler(Manifest.permission.READ_CONTACTS, textViewContact)
-
-    private fun checkAudioPermission() =
-        setPermissionHandler(Manifest.permission.RECORD_AUDIO, textViewAudio)
-
-    private fun setPermissionHandler(permission: String, textView: TextView) {
-        Dexter.withActivity(this).withPermission(permission)
+    private fun checkPermissions(permission: String, textView: TextView) {
+        Dexter.withActivity(this)
+            .withPermission(permission)
             .withListener(object : PermissionListener {
-                override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
-                    setPermissionStatus(textView, PermissionStatusEnum.GRANTED)
-                }
-
-
-                override fun onPermissionDenied(p0: PermissionDeniedResponse) {
-                    if (!p0.isPermanentlyDenied) {
-                        setPermissionStatus(textView, PermissionStatusEnum.DENIED)
-                    } else {
-                        setPermissionStatus(textView, PermissionStatusEnum.PERMANENTLY_DENIED)
-                    }
+                override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                    setPermissionStatus(
+                        textView,
+                        R.string.permission_status_granted,
+                        R.color.colorPermissionGranted
+                    )
                 }
 
                 override fun onPermissionRationaleShouldBeShown(
-                    p0: PermissionRequest,
-                    p1: PermissionToken
+                    permission: PermissionRequest?,
+                    token: PermissionToken?
                 ) {
-                    p1.continuePermissionRequest()
+                    token!!.continuePermissionRequest()
+                }
+
+                override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                    if (response!!.isPermanentlyDenied) {
+                        setPermissionStatus(
+                            textView,
+                            R.string.permission_status_denied_permanently,
+                            R.color.colorPermissionStatusPermanentlyDenied
+                        )
+                    } else {
+                        setPermissionStatus(
+                            textView,
+                            R.string.permission_status_denied,
+                            R.color.colorPermissionDenied
+                        )
+                    }
                 }
 
             }).check()
     }
 
-    private fun setPermissionStatus(textView: TextView, status: PermissionStatusEnum) {
-        when (status) {
-            PermissionStatusEnum.GRANTED -> {
-                textView.text = getString(R.string.permission_status_granted)
-                textView.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.colorPermissionGranted
-                    )
-                )
-            }
-            PermissionStatusEnum.DENIED -> {
-                textView.text = getString(R.string.permission_status_denied)
-                textView.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.colorPermissionDenied
-                    )
-                )
-            }
-            PermissionStatusEnum.PERMANENTLY_DENIED -> {
-                textView.text =
-                    getString(R.string.permission_status_denied_permanently)
-                textView.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.colorPermissionStatusPermanentlyDenied
-                    )
-                )
-            }
-        }
+    private fun setPermissionStatus(textView: TextView, status: Int, statusColor: Int) {
+        textView.setText(status)
+        textView.setTextColor(ContextCompat.getColor(applicationContext, statusColor))
     }
+
+
 }
