@@ -6,7 +6,7 @@
 
 
     <color name="colorPermissionGranted">#388e3c</color>
-    <color name="colorPermissionDenied">#d32f2f</color>
+    <color name="colorPermissionDenied">#ffa000</color>
     <color name="colorPermissionStatusPermanentlyDenied">#d32f2f</color>
 
 
