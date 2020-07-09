@@ -24,7 +24,7 @@ class MainActivity : Activity() {
         setContentView(R.layout.activity_main)
 
         setButtonClicks()
-        buttonAllPermission.setOnClickListener { checkPermissionsAll() }
+
 
 
     }
@@ -48,6 +48,7 @@ class MainActivity : Activity() {
                 textViewAudio
             )
         }
+        buttonAllPermission.setOnClickListener { checkPermissionsAll() }
     }
 
     private fun checkPermissionsAll() {
