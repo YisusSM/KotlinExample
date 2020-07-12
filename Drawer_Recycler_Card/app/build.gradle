@@ -14,6 +14,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true //para aceptar variables de colores en los vectores
     }
 
     buildTypes {
@@ -37,5 +38,6 @@ dependencies {
 
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0-alpha1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 }

@@ -32,7 +32,7 @@ class MainActivity : ToolBarActivity(), NavigationView.OnNavigationItemSelectedL
             fragmentTransaction(homeFragment())
             navView.menu.getItem(0).isChecked =
                 true //Cuando inicias la app deja marcado la primera opcion del navigator
-        } 
+        }
     }
 
     private fun closeNavigate() = drawerLayout.closeDrawer(GravityCompat.START)
