@@ -1,15 +1,17 @@
 <resources>
     <string name="app_name">Duolingo</string>
-    
+
     <string name="user_name">Jesús Silva</string>
     <string name="user_email">JSilva@gmail.com</string>
-    
+
     <string name="open_drawer">Navigation Drawer Is Open</string>
-    <string name="close_drawer">Navigation Drawer Is Closed</string>
+    <string name="close_drawer">Navigation Drawer Is Close</string>
 
     <string name="home_fragment_title">Home</string>
     <string name="home_fragment_hello">Hello From Home</string>
     <string name="arrivals_fragment_title">Hello From Arrivals</string>
     <string name="departures_fragment_title">Departures</string>
     <string name="departures_fragment_hello">Hello From Departure</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
